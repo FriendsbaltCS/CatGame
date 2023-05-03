@@ -1,16 +1,31 @@
+/*
+* Just wanted to give @JonahRubenstien(revered SERF of the FriendsbaltCS department) a big thank you for inspiring me and helping me to write such effective and effecint code!
+*/
 import edu.princeton.cs.algs4.DijkstraUndirectedSP;
 import edu.princeton.cs.algs4.EdgeWeightedGraph;
 import edu.princeton.cs.algs4.Edge;
 import java.util.Random;
 public class CatGame {
+//Size of the grid in the game
 private int n;
+//Total number of tiles in the grid
 private int FREEDOM;
+//Index of the tile where the cat starts
 private int s;
+//Array that keeps track of which tiles have been marked
 private boolean[] marked;
+//Variable that is true if the cat is trapped
 private boolean CatIsTrapped;
+//Graph representation of the grid
 private EdgeWeightedGraph G;
+//DijkstraUndirectedSP object used to find the shortest path, Thanks Sedjewick!
 private DijkstraUndirectedSP SP;
+//Random number generator used to randomly mark tiles in the grid
 private Random rand;
+/**
+ * Initializes a new CatGame object with the given size of the grid.
+ * @param n the size of the grid
+ */
 public CatGame(int n){
 	this.n = n;
 	FREEDOM = n * n;
@@ -58,6 +73,11 @@ public CatGame(int n){
     }
    }
 }
+/**
+ * Marks the tile at the specified row and column, and changes the cat according to DijkstraUndirectedSP
+ * @param row the row of the tile to mark
+ * @param col the column of the tile to mark
+ */
 public void markTile(int row, int col){
 	int v = getIndex(row, col);
 		for(Edge i : G.adj(v)){
@@ -80,6 +100,11 @@ public void markTile(int row, int col){
   }
   marked[v] = true;
 }
+/**
+ * Marks the tile at the specified row and column, with out chaning the cat
+ * @param row the row of the tile to mark
+ * @param col the column of the tile to mark
+ */
 private void startMarkTile(int row, int col){
 	int v = getIndex(row, col);
 	marked[v] = true;
@@ -88,15 +113,33 @@ private void startMarkTile(int row, int col){
 			c.changeWeight();
 		}
 }
+/**
+ * Returns whether the tile at the specified row and column has been marked
+ * @param row the row of the tile to check
+ * @param col the column of the tile to check
+ * @return true if the tile has been marked, false otherwise
+ */
 public boolean marked(int row, int col){
 	return marked[getIndex(row,col)];
 }
+/**
+ * Returns the current position of the cat on the board as an array of two integers
+ * @return the current position of the cat on the board
+ */
 public int[] getCatTile(){
 	return new int[]{s/n,s%n};
 }
+/**
+ * Returns whether the cat has escaped
+ * @return true if the cat has escaped
+ */
 public boolean catHasEscaped(){
 	return s == FREEDOM;
 }
+/**
+ * Returns whether the cat is trapped
+ * @return true if the cat is trapped
+ */
 public boolean catIsTrapped(){
 	  for(Edge i : G.adj(s)){
       CatEdge c =(CatEdge) i;
@@ -104,6 +147,12 @@ public boolean catIsTrapped(){
     }
     return true;
 }
+/**
+ * Returns the index of the tile at the specified row and column.
+ * @param row the row of the tile
+ * @param col the column of the tile
+ * @return the index of the tile
+ */
 private int getIndex(int row, int col){
   return n * row + col;
 }
